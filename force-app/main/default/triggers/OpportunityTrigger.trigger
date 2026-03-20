@@ -15,13 +15,16 @@ For this lesson, students have two options:
 
 Remember, whichever option you choose, ensure that the trigger is activated and tested to validate its functionality.
 */
-trigger OpportunityTrigger on Opportunity (before update, after update, before delete) {
+trigger OpportunityTrigger on Opportunity (before insert, after insert, before update, after update, before delete, after delete, after undelete) {
 
+    new OpportunityTriggerHandler().run();
+
+}
     /*
     * Opportunity Trigger
     * When an opportunity is updated validate that the amount is greater than 5000.
     * Trigger should only fire on update.
-    */
+    
     if (Trigger.isUpdate && Trigger.isBefore){
         for(Opportunity opp : Trigger.new){
             if(opp.Amount < 5000){
@@ -34,7 +37,7 @@ trigger OpportunityTrigger on Opportunity (before update, after update, before d
     * Opportunity Trigger
     * When an opportunity is deleted prevent the deletion of a closed won opportunity if the account industry is 'Banking'.
     * Trigger should only fire on delete.
-    */
+    
     if (Trigger.isDelete){
         //Account related to the opportunities 
         Map<Id, Account> accounts = new Map<Id, Account>([SELECT Id, Industry FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE Id IN :Trigger.old)]);
@@ -51,7 +54,7 @@ trigger OpportunityTrigger on Opportunity (before update, after update, before d
     * Opportunity Trigger
     * When an opportunity is updated set the primary contact on the opportunity to the contact with the title of 'CEO'.
     * Trigger should only fire on update.
-    */
+    
     if (Trigger.isUpdate && Trigger.isBefore){
         //Get contacts related to the opportunity account
         Set<Id> accountIds = new Set<Id>();
@@ -75,5 +78,6 @@ trigger OpportunityTrigger on Opportunity (before update, after update, before d
                 }
             }
         }
-    }    
-}
+    } 
+        */
+       
